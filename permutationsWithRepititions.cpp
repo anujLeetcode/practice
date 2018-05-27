@@ -1,24 +1,34 @@
-ass Solution {
-public:
-    int permuteUniqueUtil(vector<int>& nums, vector<vector<int>>result, int start) {
-       for(int i = start; i++ ; i < nums.size()) {
-          if(start == nums.size()) {
-            result.push_back(nums);
-            return 1;
-          }
 
-          if(nums[i] != nums[start]) {
-            swap(nums[i], nums[start]);
-            permuteUniqueUtil(nums, result, start+1);
-            swap(nums[i], nums[start]);
-          }
-       }
+class Solution {
+public:
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        vector<vector<int>>res;
+        backtracking(nums, res, 0);
+        return res;
+    }
+    
+private:
+    void backtracking(vector<int>& nums, vector<vector<int>>& res,int begin){
+        if(begin==nums.size()-1){
+            res.push_back(nums);
+            return;
+        }
+        for(int i = begin; i<nums.size();i++){
+            if((nums[i]!=nums[begin] || i == begin) && checkmiddle(nums,i,begin)){
+                swap(nums[i],nums[begin]);
+                backtracking(nums, res, begin+1);
+                swap(nums[i],nums[begin]);
+            }
+        }
         
     }
-    vector<vector<int>> permuteUnique(vector<int>& nums) {
-     vector<vector<int>>result;
-     permuteUniqueUtil(nums, result, 0);
-     result result; 
-        
+    
+    bool checkmiddle(vector<int>& nums, int i , int begin){
+        for(int k = begin; k<i; k++)
+            if(nums[i] == nums[k])
+                return false;
+        return true;
     }
 };
+
