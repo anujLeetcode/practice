@@ -1,0 +1,26 @@
+#include<iostream>
+#include<thread>
+
+using namespace std;
+
+
+class myFunc{
+  void operator()() {
+    for(int i = 0; i < 100; i++)
+       cout << this_thread::get_id();
+  }
+}
+
+
+int main() {
+
+  vector<thread> thread_list;
+  for(int i = 0; i < 50; i++) {
+     thread_list.push_back(thread(myFunc));
+  }
+  
+  for(int i = 0; i < 50; i++) {
+     thread_list[i].join();
+  }
+
+}
